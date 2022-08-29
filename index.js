@@ -12,8 +12,8 @@ const dotenv = require("dotenv");
 dotenv.config({path: "./config.env" });
 
 //Mongoose
-const Mongoose = require("mongoose");
-const { default: mongoose } = require("mongoose");
+const mongoose = require("mongoose");
+
 
 //Create Server
 const server = http.createServer(app);
@@ -23,13 +23,24 @@ const server = http.createServer(app);
 const port =process.env.PORT || 3000;
 
 //Listen on the server
-server.listen(port, ( => {
+server.listen(port, ()=> {
     console.log('Listening on ${port}...');
-}));
+});
 
 //Connect to DB
-mongoose.connect(process.env.DATABASE_REMOTE).then(() -> {
-    console.log('Connected Successfully');
+mongoose.connect(process.env.DATABASE_REMOTE).then(() => {
+    console.log("Connected Successfully...")
 });
 
 //db connection
+const db_connection = mongoose.connection;
+
+// Handle error
+db_connection.on("disconnected", () => {
+  console.log("DB disconnceted");
+});
+
+db_connection.on("error", (err) => {
+  console.log("--- ERROR ---");
+  console.log(err);
+});
