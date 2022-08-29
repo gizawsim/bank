@@ -30,7 +30,9 @@ server.listen(port, ()=> {
 //Connect to DB
 mongoose.connect(process.env.DATABASE_REMOTE).then(() => {
     console.log("Connected Successfully...")
-});
+}).catch((err) => {
+    console.log(err);
+  });
 
 //db connection
 const db_connection = mongoose.connection;
